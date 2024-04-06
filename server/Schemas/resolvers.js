@@ -13,34 +13,43 @@ const resolvers = {
   },
 
   Mutation: {
-    addUser: async ({ username, email, password }) => {
-        const user = await User.create({ username, email, password });
-        const token = signToken(user);
-        return { token, user };
+    addUser: async (parent, { username, email, password }) => {
+      const user = await User.create({ username, email, password });
+      const token = signToken(user);
+      return { token, user };
     },
 
-    login: async ({ email, password }) => {
-        const user = await User.findOne({ email });
+    // We may want to look into the findOne section here to try and fin user by userName or email. 
 
-        if (!user || !user.isCorrectPassword(password)) {
-            throw new AuthenticationError('Incorrect email or password');
-            }
-        const token = signToken(user);
-        return { token, user };
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+
+      if (!user || !user.isCorrectPassword(password)) {
+        throw new AuthenticationError('Incorrect email or password');
+      }
+
+      // const correctPw = await user.isCorrectPassword(password);
+
+
+      const token = signToken(user);
+      return { token, user };
     },
-    saveBook: async (_, { book }, context) => {
+
+    saveBook: async (parent, { book }, context) => {
+      
+
         if (!context.user) {
-            throw new AuthenticationError('You need to be logged in!');
+          throw new AuthenticationError('You need to be logged in!');
         }
 
         const updatedUser = await User.findOneAndUpdate(
-            { _id: context.user._id },
-            { $addToSet: { savedBooks: book } },
-            { new: true, runValidators: true }
+          { _id: context.user._id },
+          { $addToSet: { savedBooks: book } },
+          { new: true, runValidators: true }
         );
 
         return updatedUser;
-    },
+      },
 
       removeBook: async (parent, { bookId }, context) => {
         if (!context.user) {
