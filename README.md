@@ -6,7 +6,6 @@
  
 ## Table of Contents:
   - [Installation](#installation)
-  - [Usage](#usage)
   - [Example](#example)
   - [License](#license)
 
@@ -14,13 +13,10 @@
 ## Installation:
 This application on your own, use "npm run install" to install the required dependencies, then use "npm run build" to build the backend server.
 
-## Usage:
-To start the site locally with the developer live server, use "npm run developer"
-
 ![screenshot of app]()
 
 ## Example:
-[Visit the live page hosted on Render]()
+[Visit the live page hosted on Render](https://book-search-engine-9xar.onrender.com)
 
 
 ## License:
